@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const projectID = process.env.REACT_APP_API_KEY;
 
-const Login = () => {
+const Login = ({ loginUser }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -16,15 +16,18 @@ const Login = () => {
         const authObject = { 'Project-ID': projectID, 'User-Name': username, 'User-Secret': password };
 
         try {
-            await axios.get('https://api.chatengine.io/chats', { headers: authObject });
+            const res = await axios.get('https://api.chatengine.io/chats', { headers: authObject });
 
             localStorage.setItem('username', username);
             localStorage.setItem('password', password);
 
-            window.location.reload();
+            loginUser();
+
             setError('');
+            navigate('/')
         } catch (err) {
-            setError('Oops, wrong Username or Password.');
+            console.log(err);
+            setError('Oops! wrong Username or Password.');
         }
     };
 
@@ -40,11 +43,11 @@ const Login = () => {
                     <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} className="input" placeholder="Username" />
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} className="input" placeholder="Password" />
                     <div align="center">
-                        <button onClick={handleSignUpClick} className="button" >
-                            <span>Sign Up</span>
-                        </button>
                         <button type="submit" className="button">
                             <span>Login</span>
+                        </button>
+                        <button onClick={handleSignUpClick} className="button">
+                            <span>Sign Up</span>
                         </button>
                     </div>
                 </form>

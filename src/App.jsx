@@ -5,16 +5,26 @@ import LoginForm from './components/LoginForm';
 import './App.css';
 import CreateUser from "./components/signup";
 import Profile from "./components/Profile";
-import Modal from 'react-bootstrap/Modal'
+import DeleteAccount from "./components/DeleteAccount";
+import { useState} from "react";
 
 const projectID = process.env.REACT_APP_API_KEY;
 
 const App = () => {
+    const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('username') ? true : false);
+
+    const loginUser = () => {
+        setIsLoggedIn(true);
+    }
+
+
     const AuthenticatedApp = () => {
         const navigate = useNavigate();
         const location = useLocation();
         const {pathname} = location;
         const handleLogout = async () => {
+
+
 
             localStorage.clear();
             navigate('/Login');
@@ -28,7 +38,7 @@ const App = () => {
             <div className="chats-page">
                 <div className="nav-bar">
                     <div className="logout-tab">
-                        <a onClick={handleProfile} className="profile">Edit Profile</a>
+                        <a onClick={handleProfile} className="profile">Profile</a>
                         <a onClick={handleLogout} className="logout">Logout</a>
                     </div>
                 </div>
@@ -45,15 +55,14 @@ const App = () => {
     };
 
     return (
-        <Router>
             <Routes>
-                <Route path="/" element={localStorage.getItem('username') ? <AuthenticatedApp /> : <LoginForm />} />
+                <Route path="/" element={isLoggedIn ? <AuthenticatedApp /> : <LoginForm loginUser={loginUser}/>} />
                 <Route path="/signup" element={<CreateUser />} />
                 <Route path="/chat" element={<ChatFeed />} />
-                <Route path="/login" element={<LoginForm />} />
+                <Route path="/login" element={<LoginForm loginUser={loginUser} />} />
                 <Route path="/profile" element={<Profile />} />
+                <Route path="/DeleteAccount" element={<DeleteAccount />} />
             </Routes>
-        </Router>
     );
 };
 

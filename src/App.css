@@ -6,23 +6,23 @@
     letter-spacing: 0.5px;
   }
 
-.logout {
-  font-family: Avenir;
-  margin-right: 10px;
-  padding: 4px;
-  color: white;
-}
-
-.profile {
+  .logout {
     font-family: Avenir;
     margin-right: 10px;
     padding: 4px;
-  color: white;
-}
+    color: white;
+  }
 
-.chats-page {
-  background-color: #030309;
-}
+  .profile {
+      font-family: Avenir;
+      margin-right: 10px;
+      padding: 4px;
+    color: white;
+  }
+
+  .chats-page {
+    background-color: #030309;
+  }
   
   .ce-chat-list {
     background-color: rgb(240, 240, 240) !important;
@@ -230,6 +230,22 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 62, 5%;
+  }
+
+  .DeleteButton {
+    border-radius: 4px;
+    border: none;
+    background-color: #ff0000;
+    color: black;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 22px;
+    padding: 20px;
+    width: 200px;
+    transition: all 0.4s;
+    cursor: pointer;
+    margin: 5px;
+    width: 90%;
   }
   
   .wrapper {

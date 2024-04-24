@@ -1,6 +1,7 @@
 import {useNavigate} from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+import userEvent from "@testing-library/user-event";
 
 const projectID = process.env.REACT_APP_API_KEY;
 const privateKey = process.env.REACT_APP_PRIVATE_KEY;
@@ -12,49 +13,60 @@ const Profile = () => {
     const [lastName, setLastName] = useState('');
     const [error, setError] = useState('');
     const navigate = useNavigate();
+    useEffect(() => {
+       async function getUser(){const currentUser = localStorage.getItem('username');
+        const currentPassword = localStorage.getItem('password');
+        const authObject = { 'Project-ID': projectID, 'User-Name': currentUser, 'User-Secret': currentPassword };
+        try {
+            const res = await axios.get('https://api.chatengine.io/users/me/', { headers: authObject });
+            setUsername(res.data.username);
+            setFirstName(res.data.first_name);
+            setLastName(res.data.last_name);
+        } catch (err) {
+            setError('Something went wrong.');
+        }}
+        getUser();
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const authObject = `PRIVATE-KEY: ${privateKey}`;
+        const currentUser = localStorage.getItem('username');
+        const currentPassword = localStorage.getItem('password');
 
-        const url = "https://api.chatengine.io/users/{{user_id}}"
 
-        const option = {
-            method: "PATCH",
-            headers: {
-                'PRIVATE-KEY': privateKey,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                "username": username,
-                "secret": password,
-                "first_name": firstName,
-                "last_name": lastName
-            })
+        const authObject = { 'Project-ID': projectID, 'User-Name': currentUser, 'User-Secret': currentPassword };
+        const user_id = localStorage.getItem('id');
+
+        const url = "https://api.chatengine.io/users/me/"
+        console.log(authObject)
+
+
+        //  , "user_secret": password
+        try {
+            let data = {"username": username,"first_name": firstName, "last_name": lastName};
+            if (password){
+                data["secret"] = password;
+            }
+            await axios.patch(url, data,{ headers: authObject });
+
+            localStorage.setItem('username', username);
+            if (password){
+                localStorage.setItem('password', password);
+            }
+
+
+            // window.location.reload();
+            navigate('/')
+            setError('');
+        } catch (err) {
+            setError('Something went wrong.');
         }
-
-        fetch("https://api.chatengine.io/users/{{user_id}}/", option)
-            .then(response => response.text())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
-
-        // try {
-        //     const res = await fetch(url, option);
-        //     const data = await res.json();
-        //     console.log(data);
-        //     console.log(data.status);
-        //
-        //     navigate('/');
-        //     setError('');
-        // } catch (err) {
-        //     setError('Something went wrong.');
-        // }
     };
 
-    const handleEditClick = () => {
-        navigate('/');
-    };
+    const handleDeleteClick = () => {
+        navigate('/DeleteAccount');
+    }
 
     return (
         <div className="wrapper">
@@ -68,10 +80,12 @@ const Profile = () => {
                            placeholder="Change Last Name"/>
                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)}
                            className="input" placeholder="Change Password"/>
-
                     <div align="center">
-                        <button type="submit" onClick={handleEditClick} className="button">
-                            <span>Confirm</span>
+                        <button type="submit" className="button">
+                            <span>Accept Changes?</span>
+                        </button>
+                        <button className="DeleteButton" type="submit" onClick={handleDeleteClick}>
+                            <span>Delete Account</span>
                         </button>
                     </div>
                 </form>
