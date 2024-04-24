@@ -1,8 +1,6 @@
-import {Navigate, Route, Routes, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useState } from 'react';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
-import CreateUser from './signup';
 
 const projectID = process.env.REACT_APP_API_KEY;
 
