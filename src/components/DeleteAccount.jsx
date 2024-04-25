@@ -41,11 +41,11 @@ const DeleteAccount = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>This Cannot Be Undone!</h1>
                     <div align="center">
-                        <button onClick={handleCancel} className="button">
-                            <span>Cancel</span>
+                        <button onClick={handleCancel} className="Cancelbutton">
+                            <span>Stay A Little Longer</span>
                         </button>
                         <button type="submit" className="DeleteButton">
-                            <span>Confirm</span>
+                            <span>Confirm :( </span>
                         </button>
                     </div>
                 </form>
