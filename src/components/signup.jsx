@@ -37,8 +37,6 @@ const SignUp = () => {
         try {
             const res = await fetch(url, option);
             const data = await res.json();
-            console.log(data);
-            console.log(data.status);
 
             navigate('/');
             setError('');

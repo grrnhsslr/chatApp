@@ -39,7 +39,6 @@ const Profile = () => {
         const user_id = localStorage.getItem('id');
 
         const url = "https://api.chatengine.io/users/me/"
-        console.log(authObject)
 
 
         //  , "user_secret": password
@@ -68,6 +67,10 @@ const Profile = () => {
         navigate('/DeleteAccount');
     }
 
+    const handleCancel = () => {
+        navigate('/');
+    }
+
     return (
         <div className="wrapper">
             <div className="form">
@@ -82,7 +85,10 @@ const Profile = () => {
                            className="input" placeholder="Change Password"/>
                     <div align="center">
                         <button type="submit" className="button">
-                            <span>Accept Changes?</span>
+                            <span>Cancel</span>
+                        </button>
+                        <button onClick={handleCancel} className="button">
+                            <span>Save Changes</span>
                         </button>
                         <button className="DeleteButton" type="submit" onClick={handleDeleteClick}>
                             <span>Delete Account</span>

@@ -26,7 +26,6 @@ const Login = ({ loginUser }) => {
             setError('');
             navigate('/')
         } catch (err) {
-            console.log(err);
             setError('Oops! wrong Username or Password.');
         }
     };
