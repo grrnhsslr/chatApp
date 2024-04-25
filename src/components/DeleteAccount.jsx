@@ -30,6 +30,9 @@ const DeleteAccount = () => {
         }
     };
 
+    const handleCancel = () => {
+        navigate('/');
+    };
 
     return (
         <div className="wrapper">
@@ -38,7 +41,7 @@ const DeleteAccount = () => {
                 <form onSubmit={handleSubmit}>
                     <h1>This Cannot Be Undone!</h1>
                     <div align="center">
-                        <button type="submit" className="button">
+                        <button onClick={handleCancel} className="button">
                             <span>Cancel</span>
                         </button>
                         <button type="submit" className="DeleteButton">
@@ -49,7 +52,6 @@ const DeleteAccount = () => {
                 <h1>{error}</h1>
             </div>
         </div>
-
     );
 };
 

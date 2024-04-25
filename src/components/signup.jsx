@@ -38,7 +38,7 @@ const SignUp = () => {
             const res = await fetch(url, option);
             const data = await res.json();
 
-            navigate('/');
+            navigate('/Login');
             setError('');
         } catch (err) {
             setError('Must Enter a Valid Username/password.');
